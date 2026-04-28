@@ -19,15 +19,15 @@
 7. is average order value increasing over time ?
 
 ## Key Findings 
--**Top product:** Mountain-200 Black (size 38) generated 
+**Top product:** Mountain-200 Black (size 38) generated 
 ₹44 lakh+ in total revenue  - highest among all 500+ product 
 
--**Top territory:** Southwest region ranked #1 in total sales revenue 
+**Top territory:** Southwest region ranked #1 in total sales revenue 
 
--**Revenue growth:** Bussiness grew 3x from 2022 to 2024 - strong 
+**Revenue growth:** Bussiness grew 3x from 2022 to 2024 - strong 
  upward trend with 2024 beign peak year at ₹4.9 crore+
 
-- **2022 → 2024 growth:** Revenue increased by 200%+ in just 3 years
+**2022 → 2024 growth:** Revenue increased by 200%+ in just 3 years
 
 
 ## Skills Demonstrated
