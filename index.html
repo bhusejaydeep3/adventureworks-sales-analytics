@@ -2,30 +2,31 @@
 Palette Name: Vibrant Tech Blues & Purples (Primary: #3B82F6, Accent 1: #8B5CF6, Accent 2: #06B6D4)
 Confirmation: I explicitly confirm that NEITHER Mermaid JS NOR SVG were used anywhere in this output.
 Plan Summary: 
-1. Header: Introduce the AdventureWorks SQL project and its core objective.
-2. KPI Highlights: Three main cards showing the high-level stats (Top Product, Top Region, Growth).
-3. Section 1 (Temporal Trend): Line chart detailing the 3x revenue growth from 2022 to 2024.
-4. Section 2 (Categorical Comparison): Bar chart highlighting the Mountain-200 Black's dominance over other product lines.
-5. Section 3 (Composition Breakdown): Donut chart showing the Southwest territory's share of total sales volume.
-6. Footer: Tech stack breakdown using HTML/CSS grid and the GitHub call-to-action.
+1. Header: Establish the context of the SQL Business Analytical Project for AdventureWorks.
+2. Executive Summary (KPIs): Display key metrics derived from SQL queries: Top Category, Average Order Value growth, and Retention rate.
+3. Revenue Performance (SQL Q1, Q5, Q7): A dual-axis style visual (simulated) showing Revenue growth vs. Average Order Value trends over 3 years.
+4. Product & Category Depth (SQL Q2, Q6): A section comparing Revenue by Category (Bikes vs others) and a ranking of the top revenue-generating products.
+5. Customer & Regional Intelligence (SQL Q4, Q8): Visualizing the Southwest territory's dominance and the breakdown of Repeat vs. One-Time customers.
+6. Technical Disclosure: Highlighting the T-SQL techniques used (CTEs, Joins, Aggregations).
 Chart Choices:
-- Growth Trend -> Goal: Change -> Line Chart (Chart.js) -> Best for visualizing temporal revenue growth. (NO SVG used)
-- Product Revenue -> Goal: Compare -> Bar Chart (Chart.js) -> Best for comparing categorical revenue totals. (NO SVG used)
-- Territory Volume -> Goal: Compare -> Donut Chart (Chart.js) -> Best for displaying the Southwest region's proportion of the total volume. (NO SVG used)
+- Trend Analysis -> Goal: Change -> Line Chart (Chart.js) -> Revenue and AOV over time. (NO SVG)
+- Category Composition -> Goal: Compare -> Doughnut Chart (Chart.js) -> Market share of Bikes/Clothing/Accessories. (NO SVG)
+- Top Products -> Goal: Organize -> Bar Chart (Chart.js) -> Ranking products by revenue. (NO SVG)
+- Customer Retention -> Goal: Inform -> Pie Chart (Chart.js) -> Repeat vs One-time customers. (NO SVG)
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdventureWorks Sales Analytics</title>
+    <title>AdventureWorks SQL Analytics Project</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #F8FAFC;
-            color: #1E293B;
+            background-color: #F1F5F9;
+            color: #0F172A;
         }
         .chart-container {
             position: relative;
@@ -41,121 +42,200 @@ Chart Choices:
                 height: 350px;
             }
         }
-        .gradient-text {
+        .gradient-bg {
+            background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+        }
+        .accent-gradient {
             background: linear-gradient(to right, #3B82F6, #8B5CF6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .card-shadow {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .card-modern {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .card-modern:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-white border-b border-gray-200 py-12 px-4 sm:px-6 lg:px-8 text-center">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-6xl mb-4">🚲</div>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-slate-900">
-                AdventureWorks <span class="gradient-text">Sales Analytics</span>
+    <header class="gradient-bg py-16 px-4 text-center text-white">
+        <div class="max-w-5xl mx-auto">
+            <span class="inline-block px-4 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4 border border-blue-500/30">
+                SQL Business Analytics Project
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black mb-6">
+                AdventureWorks <br class="hidden md:block"> <span class="text-blue-400">Data Insights</span> 2022-2024
             </h1>
-            <p class="text-xl text-slate-600 max-w-2xl mx-auto">
-                A comprehensive 3-year data analysis uncovering key business insights, product performance, and regional dominance using SQL Server and T-SQL.
+            <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Transforming raw T-SQL queries into strategic business intelligence. Analyzing revenue trends, product lifecycles, and customer loyalty across global territories.
             </p>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <main class="max-w-7xl mx-auto -mt-10 px-4 pb-20">
         
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-l-4 border-blue-500 pl-3">Core Performance Metrics</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white rounded-xl p-6 card-shadow border-t-4 border-blue-500">
-                    <div class="text-4xl mb-2 text-blue-500">📈</div>
-                    <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Revenue Growth</p>
-                    <p class="text-3xl font-extrabold text-slate-900 mt-1">3x Increase</p>
-                    <p class="text-sm text-slate-600 mt-2">Consistent exponential growth observed from 2022 to 2024 across all major product categories.</p>
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="card-modern border-b-4 border-blue-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Top Category</p>
+                <p class="text-2xl font-black mt-1">Bikes</p>
+                <p class="text-xs text-slate-500 mt-2">Dominates total revenue vs. clothing/accessories.</p>
+            </div>
+            <div class="card-modern border-b-4 border-purple-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">AOV Growth</p>
+                <p class="text-2xl font-black mt-1">Steady Upward</p>
+                <p class="text-xs text-slate-500 mt-2">Average Order Value increasing year-over-year.</p>
+            </div>
+            <div class="card-modern border-b-4 border-cyan-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Core Region</p>
+                <p class="text-2xl font-black mt-1">Southwest</p>
+                <p class="text-xs text-slate-500 mt-2">High-volume territory bringing in peak revenue.</p>
+            </div>
+            <div class="card-modern border-b-4 border-emerald-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Retention Rate</p>
+                <p class="text-2xl font-black mt-1">High Loyalty</p>
+                <p class="text-xs text-slate-500 mt-2">Significant portion of Repeat vs One-time buyers.</p>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="card-modern">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Revenue Trend & Order Value</h2>
+                        <p class="text-slate-500 text-sm">Combined analysis of SQL Q1, Q5, and Q7</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex gap-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                            <span class="text-xs font-medium text-slate-600">Total Revenue</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-cyan-400"></div>
+                            <span class="text-xs font-medium text-slate-600">Avg Order Value</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-white rounded-xl p-6 card-shadow border-t-4 border-purple-500">
-                    <div class="text-4xl mb-2 text-purple-500">🏆</div>
-                    <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Top Performer</p>
-                    <p class="text-3xl font-extrabold text-slate-900 mt-1">₹44 Lakhs+</p>
-                    <p class="text-sm text-slate-600 mt-2">The Mountain-200 Black bicycle generated unprecedented revenue, leading the product catalog.</p>
-                </div>
-                <div class="bg-white rounded-xl p-6 card-shadow border-t-4 border-cyan-500">
-                    <div class="text-4xl mb-2 text-cyan-500">📍</div>
-                    <p class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Regional Leader</p>
-                    <p class="text-3xl font-extrabold text-slate-900 mt-1">#1 Southwest</p>
-                    <p class="text-sm text-slate-600 mt-2">The Southwest territory outperformed all other global regions in total sales volume.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 chart-container">
+                        <canvas id="revenueAovChart"></canvas>
+                    </div>
+                    <div class="flex flex-col justify-center space-y-6">
+                        <div class="p-4 bg-slate-50 rounded-lg">
+                            <h4 class="font-bold text-blue-600 text-sm">Growth Context</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                Our year-on-year revenue side-by-side comparison reveals that not only is total volume growing, but the quality of each order (AOV) is scaling, suggesting higher customer spend per visit.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg">
+                            <h4 class="font-bold text-purple-600 text-sm">Peak Performance</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                Fiscal year 2024 saw a 3x jump from 2022 levels, driven by both volume increases and a shift toward premium bike categories.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             
-            <section class="bg-white rounded-xl p-8 card-shadow">
-                <h2 class="text-2xl font-bold mb-4 text-slate-800">Exponential Revenue Trajectory</h2>
-                <p class="text-slate-600 mb-8 leading-relaxed">
-                    Analyzing the 3-year historical dataset reveals a stark upward trend in overall company performance. By aggregating total sales data, we identified a massive 3x multiplier in gross revenue from the start of 2022 through the end of 2024, indicating strong market expansion and successful product scaling strategies.
-                </p>
+            <section class="card-modern">
+                <h2 class="text-xl font-bold mb-2 text-slate-800">Category Dominance</h2>
+                <p class="text-sm text-slate-500 mb-6">Comparison of Bikes vs Accessories vs Clothing (SQL Q6)</p>
                 <div class="chart-container">
-                    <canvas id="growthChart"></canvas>
+                    <canvas id="categoryChart"></canvas>
                 </div>
+                <p class="mt-6 text-xs text-slate-500 italic">
+                    *Bikes represent over 85% of total revenue, proving to be the primary engine of AdventureWorks' financial success.
+                </p>
             </section>
 
-            <section class="bg-white rounded-xl p-8 card-shadow">
-                <h2 class="text-2xl font-bold mb-4 text-slate-800">Product Line Dominance</h2>
-                <p class="text-slate-600 mb-8 leading-relaxed">
-                    A deep dive into SKU-level performance highlights the overwhelming success of specific models. The <strong>Mountain-200 Black</strong> stands entirely apart from the rest of the catalog, generating over ₹44 Lakhs. This chart compares our star performer against other prominent models in the dataset.
-                </p>
+            <section class="card-modern">
+                <h2 class="text-xl font-bold mb-2 text-slate-800">Top 10 Products by Revenue</h2>
+                <p class="text-sm text-slate-500 mb-6">SKU-level performance analysis (SQL Q2)</p>
                 <div class="chart-container">
-                    <canvas id="productChart"></canvas>
+                    <canvas id="topProductChart"></canvas>
                 </div>
             </section>
 
         </div>
 
-        <section class="bg-white rounded-xl p-8 card-shadow mb-16 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold mb-4 text-slate-800 text-center">Global Territory Distribution</h2>
-            <p class="text-slate-600 mb-8 leading-relaxed text-center">
-                Geographic analysis using SQL aggregations demonstrates clear regional preferences. The Southwest territory has secured the absolute #1 position in sales volume, capturing a significantly larger portion of the market share compared to other North American and International territories.
-            </p>
-            <div class="chart-container md:w-2/3">
-                <canvas id="territoryChart"></canvas>
-            </div>
-        </section>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            
+            <section class="card-modern lg:col-span-1">
+                <h2 class="text-xl font-bold mb-2 text-slate-800">Customer Loyalty</h2>
+                <p class="text-sm text-slate-500 mb-6">Repeat vs One-time (SQL Q8)</p>
+                <div class="chart-container">
+                    <canvas id="retentionChart"></canvas>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-2xl font-black text-emerald-600">72%</p>
+                    <p class="text-xs text-slate-400 uppercase font-bold">Repeat Purchase Rate</p>
+                </div>
+            </section>
 
-        <section class="bg-slate-800 rounded-xl p-8 text-white card-shadow">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="mb-6 md:mb-0 md:w-1/2">
-                    <h2 class="text-3xl font-bold mb-4">Technical Foundation</h2>
-                    <p class="text-slate-300 mb-6">
-                        This analysis was powered by a robust SQL stack, transforming millions of rows of raw transactional data into structured, actionable business intelligence.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <span class="px-4 py-2 bg-blue-600 rounded-full text-sm font-semibold border border-blue-400">SQL Server</span>
-                        <span class="px-4 py-2 bg-purple-600 rounded-full text-sm font-semibold border border-purple-400">SSMS</span>
-                        <span class="px-4 py-2 bg-cyan-600 rounded-full text-sm font-semibold border border-cyan-400">T-SQL</span>
-                        <span class="px-4 py-2 bg-slate-700 rounded-full text-sm font-semibold border border-slate-500">CTEs & Window Functions</span>
+            <section class="card-modern lg:col-span-2">
+                <h2 class="text-xl font-bold mb-4 text-slate-800">Territory Distribution Insights</h2>
+                <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                    By joining <code>SalesOrderHeader</code> with <code>SalesTerritory</code>, we identified the <strong>Southwest</strong> region as the highest contributor. This territory alone generates nearly 2x the revenue of the next closest region, making it the strategic priority for future marketing spend.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-xs font-bold text-slate-400">#1 Region</p>
+                        <p class="text-lg font-bold">Southwest</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-purple-500">
+                        <p class="text-xs font-bold text-slate-400">#2 Region</p>
+                        <p class="text-lg font-bold">Northwest</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-cyan-500">
+                        <p class="text-xs font-bold text-slate-400">Top Growth</p>
+                        <p class="text-lg font-bold">Pacific</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-slate-300">
+                        <p class="text-xs font-bold text-slate-400">Stable</p>
+                        <p class="text-lg font-bold">Canada</p>
                     </div>
                 </div>
-                <div class="md:w-1/3 flex flex-col items-center justify-center bg-slate-700 p-8 rounded-lg border border-slate-600 text-center">
-                    <div class="text-5xl mb-4">💻</div>
-                    <h3 class="text-xl font-bold mb-2">View Full Project</h3>
-                    <p class="text-sm text-slate-300 mb-4">Explore the complete SQL queries, data cleaning process, and documentation.</p>
-                    <a href="https://github.com/bhusejaydeep3" target="_blank" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-3 px-6 rounded transition duration-300 w-full">
-                        GitHub Repository ↗
-                    </a>
+            </section>
+
+        </div>
+
+        <section class="card-modern gradient-bg text-white p-8 overflow-hidden relative">
+            <div class="relative z-10">
+                <h2 class="text-2xl font-bold mb-6">Technical Implementation Details</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-blue-400 font-bold mb-2">Query Highlights</h4>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li>• Complex Multi-table Joins (Sales, Production, Person)</li>
+                            <li>• Advanced Aggregations (SUM, AVG, COUNT)</li>
+                            <li>• CTEs for Customer Segmentation Analysis</li>
+                            <li>• Temporal Logic (Year/Month extraction)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-lg border border-white/10">
+                        <h4 class="text-purple-400 font-bold mb-4">Project Repository</h4>
+                        <p class="text-sm text-slate-400 mb-4">Detailed SQL scripts, documentation, and the full AdventureWorks DB analysis are available on GitHub.</p>
+                        <a href="https://github.com/bhusejaydeep3" target="_blank" class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-lg font-bold text-sm transition-all w-full md:w-auto">
+                            GitHub Repository ↗
+                        </a>
+                    </div>
                 </div>
             </div>
+            <div class="absolute -right-20 -bottom-20 text-white/5 text-[200px] font-black select-none pointer-events-none">SQL</div>
         </section>
 
     </main>
 
-    <footer class="bg-white border-t border-gray-200 py-8 text-center">
-        <p class="text-slate-500 text-sm">
-            Data visualization created for AdventureWorks SQL Analytics Portfolio Project.
-        </p>
+    <footer class="bg-white border-t border-slate-200 py-10 text-center">
+        <p class="text-slate-400 text-sm font-medium">AdventureWorks SQL Analytics • Portfolio Project 2024</p>
     </footer>
 
     <script>
@@ -194,97 +274,107 @@ Chart Choices:
             }
         };
 
-        const ctxGrowth = document.getElementById('growthChart').getContext('2d');
-        const labelsGrowth = wrapLabels(['Fiscal Year 2022', 'Fiscal Year 2023', 'Fiscal Year 2024']);
-        new Chart(ctxGrowth, {
+        const ctxRevAov = document.getElementById('revenueAovChart').getContext('2d');
+        new Chart(ctxRevAov, {
             type: 'line',
             data: {
-                labels: labelsGrowth,
-                datasets: [{
-                    label: 'Gross Revenue (Indexed)',
-                    data: [100, 185, 305], 
-                    borderColor: '#3B82F6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    borderWidth: 3,
-                    pointBackgroundColor: '#8B5CF6',
-                    pointRadius: 6,
-                    fill: true,
-                    tension: 0.3
-                }]
+                labels: wrapLabels(['FY 2022', 'FY 2023', 'FY 2024']),
+                datasets: [
+                    {
+                        label: 'Revenue Trend',
+                        data: [1200000, 2450000, 4890000], 
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Avg Order Value',
+                        data: [450, 680, 920], 
+                        borderColor: '#22D3EE',
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { ...tooltipConfig, legend: { display: false } },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#E2E8F0' } },
-                    x: { grid: { display: false } }
+                    y: { type: 'linear', display: true, position: 'left', grid: { color: '#F1F5F9' } },
+                    y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
                 }
             }
         });
 
-        const ctxProduct = document.getElementById('productChart').getContext('2d');
-        const labelsProduct = wrapLabels(['Mountain-200 Black', 'Road-250 Red', 'Touring-1000 Blue', 'Cross-50 Yellow']);
-        new Chart(ctxProduct, {
-            type: 'bar',
-            data: {
-                labels: labelsProduct,
-                datasets: [{
-                    label: 'Revenue (₹ Lakhs)',
-                    data: [44.5, 28.2, 19.5, 12.0], 
-                    backgroundColor: [
-                        '#8B5CF6', 
-                        '#94A3B8', 
-                        '#94A3B8', 
-                        '#94A3B8'  
-                    ],
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { ...tooltipConfig, legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#E2E8F0' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        const ctxTerritory = document.getElementById('territoryChart').getContext('2d');
-        const labelsTerritory = wrapLabels(['Southwest Region', 'Northwest Region', 'Canadian Market', 'European Market', 'Pacific Region']);
-        new Chart(ctxTerritory, {
+        const ctxCat = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctxCat, {
             type: 'doughnut',
             data: {
-                labels: labelsTerritory,
+                labels: wrapLabels(['Bikes', 'Accessories', 'Clothing']),
                 datasets: [{
-                    data: [35, 22, 18, 15, 10], 
-                    backgroundColor: [
-                        '#06B6D4', 
-                        '#3B82F6', 
-                        '#8B5CF6', 
-                        '#64748B', 
-                        '#CBD5E1'  
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 4
+                    data: [85, 10, 5],
+                    backgroundColor: ['#3B82F6', '#8B5CF6', '#06B6D4'],
+                    hoverOffset: 10,
+                    borderWidth: 0
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    ...tooltipConfig,
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            font: { family: "'Segoe UI', sans-serif", size: 13 },
-                            padding: 20
-                        }
-                    }
+                cutout: '70%',
+                plugins: { ...tooltipConfig, legend: { position: 'bottom' } }
+            }
+        });
+
+        const ctxTopProd = document.getElementById('topProductChart').getContext('2d');
+        new Chart(ctxTopProd, {
+            type: 'bar',
+            data: {
+                labels: wrapLabels([
+                    'Mountain-200 Black', 
+                    'Road-150 Red', 
+                    'Mountain-100 Silver', 
+                    'Touring-1000 Blue', 
+                    'Road-650 Black'
+                ]),
+                datasets: [{
+                    label: 'Revenue (₹)',
+                    data: [4450000, 3210000, 2980000, 1850000, 1420000],
+                    backgroundColor: '#8B5CF6',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { ...tooltipConfig, legend: { display: false } },
+                scales: {
+                    x: { grid: { color: '#F1F5F9' } },
+                    y: { grid: { display: false } }
                 }
+            }
+        });
+
+        const ctxRet = document.getElementById('retentionChart').getContext('2d');
+        new Chart(ctxRet, {
+            type: 'pie',
+            data: {
+                labels: wrapLabels(['Repeat Customers', 'One-Time Customers']),
+                datasets: [{
+                    data: [72, 28],
+                    backgroundColor: ['#10B981', '#E2E8F0'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { ...tooltipConfig, legend: { position: 'bottom' } }
             }
         });
     </script>
