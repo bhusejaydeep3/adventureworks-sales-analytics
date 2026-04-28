@@ -112,5 +112,4 @@ order by year(orderdate)
 
 
 
---Q8 — Repeat vs one-time customers
---"How many customers bought more than once? What percentage of our customer base keeps coming back?"
+
