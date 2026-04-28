@@ -29,12 +29,6 @@
 
 - **2022 → 2024 growth:** Revenue increased by 200%+ in just 3 years
 
-## Project Structure 
-
-adventureworks-sales-analytics/
-├── README.md
-└── queries/
- └── sql_business_analytics.sql
 
 ## Skills Demonstrated
 - Multi-table JOINs (3-4 tables)
